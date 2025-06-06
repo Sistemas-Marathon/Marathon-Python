@@ -6,7 +6,7 @@ from io import BytesIO
 from datetime import datetime
 
 def run():
-    st.title("📦 Stock Mínimo y Máximo por Serie (RRHH)")
+    st.title("📦 Stock Mínimo y Máximo por Serie")
 
     uploaded_file = st.file_uploader("📤 Subí el archivo Excel base", type=["xlsx"])
 
