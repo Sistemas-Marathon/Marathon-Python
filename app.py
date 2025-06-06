@@ -2,7 +2,6 @@
 import streamlit as st
 from PIL import Image
 import reposicion_cruzada
-import otroscript
 
 # Configuración global
 st.set_page_config(page_title="Sistema de Automatización", layout="wide", page_icon="🛠️")
@@ -45,9 +44,7 @@ elif area == "Supply Chain":
 
 elif area == "RRHH":
     st.title("👩‍💼 Recursos Humanos")
-    opcion = st.sidebar.radio("📋 Procesos disponibles:", ["Otro Script"])
-    if opcion == "Otro Script":
-        otroscript.run()
+    opcion = st.sidebar.radio("📋 Procesos disponibles:", [])
 
 # --- PIE DE PÁGINA ---
 st.markdown("---")
