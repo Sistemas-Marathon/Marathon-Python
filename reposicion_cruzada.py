@@ -6,7 +6,6 @@ from io import BytesIO
 import zipfile
 
 def run():
-    st.set_page_config(page_title="Reposición Cruzada", layout="centered")
     st.title("🚛 Reposición Cruzada")
 
     uploaded_file = st.file_uploader("📤 Subí el archivo Excel", type=["xlsx"])
