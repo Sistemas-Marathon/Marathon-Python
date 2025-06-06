@@ -1,7 +1,13 @@
 # app.py
 import streamlit as st
 from PIL import Image
+import rrhh_tem_tre
+import rrhh_tickets_por_hora
 import reposicion_cruzada
+import min_max
+import marketing_codigos_barra
+import rrhh_lleg_tardes
+import rrhh_modif_horarios
 
 # Configuración global
 st.set_page_config(page_title="Sistema de Automatización", layout="wide", page_icon="🛠️")
@@ -13,7 +19,7 @@ logo = Image.open("descarga.jpeg")  # Asegurate que esté en la misma carpeta de
 with st.sidebar:
     st.image(logo, width=150)
     st.title("🔧 Automatizaciones")
-    area = st.selectbox("📂 Seleccioná el área", ["Inicio", "Supply Chain", "RRHH"])
+    area = st.selectbox("Seleccioná el área", ["Inicio", "Supply Chain", "RRHH", "Marketing"])
 
 # --- CONTENIDO PRINCIPAL ---
 if area == "Inicio":
@@ -26,26 +32,45 @@ if area == "Inicio":
     - Evitar depender del equipo de IT para tareas repetitivas.
     """)
 
-    # Ejemplo de métricas
-    col1, col2 = st.columns(2)
-    with col1:
-        st.metric("🗂️ Scripts disponibles", 2)
-    with col2:
-        st.metric("👥 Áreas integradas", 2)
 
     st.markdown("---")
     st.success("Seleccioná un área en la barra lateral para comenzar.")
 
 elif area == "Supply Chain":
     st.title("🚚 Supply Chain")
-    opcion = st.sidebar.radio("📦 Procesos disponibles:", ["Reposición Cruzada"])
+    opcion = st.sidebar.radio("📦 Procesos disponibles:", ["Reposición Cruzada", "Minimos y Máximos"])
     if opcion == "Reposición Cruzada":
         reposicion_cruzada.run()
+    elif opcion == "Minimos y Máximos":
+        min_max.run()
 
+# En la sección "RRHH"
 elif area == "RRHH":
     st.title("👩‍💼 Recursos Humanos")
-    opcion = st.sidebar.radio("📋 Procesos disponibles:", [])
+    opcion = st.sidebar.radio("📋 Procesos disponibles:", [
+        "Tickets por hora",
+        "Transferencias TEM-TRE",
+        "Llegadas Tardes y Justificaciones",
+        "Modificaciones de Horarios"
+    ])
+    if opcion == "Tickets por hora":
+        rrhh_tickets_por_hora.run()
+    elif opcion == "Transferencias TEM-TRE":
+        rrhh_tem_tre.run()
+    elif opcion == "Llegadas Tardes y Justificaciones":
+        rrhh_lleg_tardes.run()
+    elif opcion == "Modificaciones de Horarios":
+        rrhh_modif_horarios.run()
+
+elif area == "Marketing":
+    st.title("📈 Marketing")
+    opcion = st.sidebar.radio("📋 Procesos disponibles:", [
+        "Generador de Códigos de Barras"
+    ])
+    if opcion == "Generador de Códigos de Barras":
+        marketing_codigos_barra.run()
+    
 
 # --- PIE DE PÁGINA ---
 st.markdown("---")
-st.markdown("<center>🔒 Sistema interno de uso exclusivo - Contacto: IT@tuempresa.com</center>", unsafe_allow_html=True)
+st.markdown("<center>🔒 Sistema interno de uso exclusivo - Santiago Sosa</center>", unsafe_allow_html=True)
