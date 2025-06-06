@@ -77,7 +77,7 @@ def run():
             WHERE 
                 r.MPS_IDPLAGEPREV IS NOT NULL AND 
                 CONVERT(VARCHAR(10), r.MPS_DATEDEBPLAGE, 103) >= ? AND 
-                CONVERT(VARCHAR(10), r.MPS_DATEDEBPLAGE, 103) <= ? AND
+                CONVERT(VARCHAR(10), r.MPS_DATEDEBPLAGE, 103) <= ? 
 
             """
 
