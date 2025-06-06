@@ -55,7 +55,7 @@ def run():
                             codigo_barra = str(fila[df.columns[0]])
                             valor_celda = fila[df.columns[idx + 1]]
 
-                            if pd.notna(valor_celda) and str(valor_celda) != '0' and valor_celda < 0:
+                            if pd.notna(valor_celda) and str(valor_celda) != '0':
                                 data['COD BARRA'].append(codigo_barra)
                                 data['CANTIDAD'].append(str(valor_celda))
                                 data['ESTABLECIMIENTO'].append(columnaEmisor)
