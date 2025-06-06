@@ -14,7 +14,7 @@ def run():
         try:
             # Conexión
             conn_str = (
-                'DRIVER={SQL Server};'
+                'DRIVER={ODBC Driver 17 for SQL Server};'
                 'SERVER=181.209.94.152,29433\\MARAPROD24;'
                 'DATABASE=MARAPROD24;'
                 'UID=BIMA;'
