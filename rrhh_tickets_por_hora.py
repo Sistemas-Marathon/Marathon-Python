@@ -1,7 +1,6 @@
-# rrhh_tickets_por_hora.py
 import streamlit as st
 import pandas as pd
-import pyodbc
+import requests
 from io import BytesIO
 
 def run():
@@ -12,37 +11,18 @@ def run():
 
     if st.button("📥 Consultar y descargar"):
         try:
-            # Conexión
-            conn_str = (
-                'DRIVER={SQL Server};'
-                'SERVER=181.209.94.152,29433\\MARAPROD24;'
-                'DATABASE=MARAPROD24;'
-                'UID=BIMA;'
-                'PWD=Mar2024*'
-            )
-            conn = pyodbc.connect(conn_str)
+            url = "http://192.168.1.111:5000/tickets-por-hora"  # reemplazá con la IP real
+            response = requests.post(url, json={
+                "fecha_inicio": str(fecha_inicio),
+                "fecha_fin": str(fecha_fin)
+            })
 
-            # Consulta
-            query = """
-            SELECT 
-                CONVERT(DATE, GP_HEURECREATION) AS Fecha,
-                CONVERT(TIME, GP_HEURECREATION) AS Hora,
-                GP_SOUCHE AS Establecimiento,
-                FORMAT(DATEPART(HOUR, GP_HEURECREATION), '00') + ':00-' +
-                FORMAT(DATEPART(HOUR, GP_HEURECREATION) + 1, '00') + ':00' AS Rango_Horario,
-                1 AS Cantidad
-            FROM [MARAPROD24].[dbo].[PIECE]
-            WHERE GP_NATUREPIECEG = 'FFO'
-              AND GP_DATECREATION >= ?
-              AND GP_DATECREATION <= ?
-              AND GP_TYPECOMPTA <> 'TRE'
-            ORDER BY GP_HEURECREATION;
-            """
+            if response.status_code != 200:
+                st.error(f"❌ Error en la API: {response.text}")
+                return
 
-            df = pd.read_sql(query, conn, params=[fecha_inicio, fecha_fin])
-            conn.close()
-
-            st.success(f"✅ Consulta exitosa: {len(df)} registros")
+            df = pd.DataFrame(response.json())
+            st.success(f"✅ {len(df)} registros encontrados")
             st.dataframe(df)
 
             output = BytesIO()
