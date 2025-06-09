@@ -24,16 +24,21 @@ def run():
 
             # Consulta
             query = """
-            SELECT GP_REPRESENTANT AS [Comercial del doc.],
-            GP_HEURECREATION AS [Fecha],
-            GP_ETABLISSEMENT AS [Establecimiento],
-            GP_CAISSE AS [Caja],
-            GP_TOTALTTC AS [Total IVA inc],
-            GP_TOTALHT AS [Total exc. IVA documento],
-            US_LIBELLE AS [Ultimo usuario]  
-            FROM [MARAPROD24].[dbo].[PIECE]
-            INNER JOIN UTILISAT ON GP_CREATEUR=US_UTILISATEUR
-            WHERE (GP_DATEPIECE >= ? AND GP_DATEPIECE < ? AND GP_NATUREPIECEG IN ('FFO')) 
+           SELECT
+                GP_REPRESENTANT AS [Comercial del doc.],
+                CAST(GP_HEURECREATION AS DATE) AS [Fecha],         -- Extrae solo la parte de la fecha
+                CAST(GP_HEURECREATION AS TIME) AS [Hora],          -- Extrae solo la parte de la hora
+                GP_ETABLISSEMENT AS [Establecimiento],
+                GP_CAISSE AS [Caja],
+                GP_TOTALTTC AS [Total IVA inc],
+                GP_TOTALHT AS [Total exc. IVA documento],
+                US_LIBELLE AS [Ultimo usuario]
+            FROM    
+                [MARAPROD24].[dbo].[PIECE]
+            INNER JOIN
+                UTILISAT ON GP_CREATEUR = US_UTILISATEUR
+            WHERE
+                (GP_DATEPIECE >= ? AND GP_DATEPIECE < ? AND GP_NATUREPIECEG IN ('FFO'));
             """
 
             df = pd.read_sql(query, conn, params=[fecha_inicio, fecha_fin])
