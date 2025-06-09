@@ -1,9 +1,7 @@
 # Usar una imagen base de Debian o Ubuntu que ya tenga Python
-# python:3.11-slim-bookworm es una excelente opción ya que sabemos que Render usa Debian 12.
 FROM python:3.11-slim-bookworm
 
 # Instalar dependencias del sistema operativo (incluido el driver ODBC)
-# Los comandos RUN en un Dockerfile se ejecutan como root por defecto.
 RUN apt-get update && apt-get install -y --no-install-recommends \
     curl \
     gnupg \
@@ -18,6 +16,16 @@ RUN curl https://packages.microsoft.com/keys/microsoft.asc | gpg --dearmor > /us
 RUN apt-get update && ACCEPT_EULA=Y apt-get install -y --no-install-recommends \
     msodbcsql17 \
     && rm -rf /var/lib/apt/lists/*
+
+# --- NUEVAS LÍNEAS PARA DEPURACIÓN ---
+# Listar los drivers ODBC instalados
+RUN echo "--- Listando drivers ODBC ---" && \
+    odbcinst -q -d || true && \
+    echo "--- Listando archivos del driver ---" && \
+    ls -l /opt/microsoft/msodbcsql17/lib64/libmsodbcsql-17.so || true && \
+    echo "--- Listando configuracion ODBC ---" && \
+    cat /etc/odbcinst.ini || true
+# --- FIN NUEVAS LÍNEAS ---
 
 # Establecer el directorio de trabajo en el contenedor
 WORKDIR /app
