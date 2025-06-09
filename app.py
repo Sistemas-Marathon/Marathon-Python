@@ -8,6 +8,7 @@ import min_max
 import marketing_codigos_barra
 import rrhh_lleg_tardes
 import rrhh_modif_horarios
+import rrhh_tickets_por_comercial
 
 # Configuración global
 st.set_page_config(page_title="Sistema de Automatización", layout="wide", page_icon="🛠️")
@@ -51,7 +52,8 @@ elif area == "RRHH":
         "Tickets por hora",
         "Transferencias TEM-TRE",
         "Llegadas Tardes y Justificaciones",
-        "Modificaciones de Horarios"
+        "Modificaciones de Horarios",
+        "Tickets por Comercial"
     ])
     if opcion == "Tickets por hora":
         rrhh_tickets_por_hora.run()
@@ -61,6 +63,8 @@ elif area == "RRHH":
         rrhh_lleg_tardes.run()
     elif opcion == "Modificaciones de Horarios":
         rrhh_modif_horarios.run()
+    elif opcion == "Tickets por Comercial":
+        rrhh_tickets_por_comercial.run()
 
 elif area == "Marketing":
     st.title("📈 Marketing")
