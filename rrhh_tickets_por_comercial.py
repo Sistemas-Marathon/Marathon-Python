@@ -1,4 +1,4 @@
-# rrhh_tickets_por_hora.py
+# rrhh_tickets_por_comercial.py
 import streamlit as st
 import pandas as pd
 import pyodbc
@@ -33,7 +33,7 @@ def run():
             US_LIBELLE AS [Ultimo usuario]  
             FROM [MARAPROD24].[dbo].[PIECE]
             INNER JOIN UTILISAT ON GP_CREATEUR=US_UTILISATEUR
-            WHERE (GP_DATEPIECE >= ? AND GP_DATEPIECE < ? AND GP_NATUREPIECEG IN ('TEM', 'TRE')) 
+            WHERE (GP_DATEPIECE >= ? AND GP_DATEPIECE < ? AND GP_NATUREPIECEG IN ('FFO')) 
             """
 
             df = pd.read_sql(query, conn, params=[fecha_inicio, fecha_fin])
