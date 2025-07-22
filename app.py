@@ -54,7 +54,8 @@ elif area == "RRHH":
         "Transferencias TEM-TRE",
         "Llegadas Tardes y Justificaciones",
         "Modificaciones de Horarios",
-        "Tickets por Comercial"
+        "Tickets por Comercial",
+        "Desglose de Recibos"
     ])
     if opcion == "Tickets por hora":
         rrhh_tickets_por_hora.run()
@@ -67,7 +68,7 @@ elif area == "RRHH":
     elif opcion == "Tickets por Comercial":
         rrhh_tickets_por_comercial.run()
     elif opcion == "Desglose de Recibos":
-        rrhh_desglose_recibos.main()
+        rrhh_desglose_recibos.run()
 
 elif area == "Marketing":
     st.title("📈 Marketing")
