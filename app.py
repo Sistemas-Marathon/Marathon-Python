@@ -65,6 +65,8 @@ elif area == "RRHH":
         rrhh_modif_horarios.run()
     elif opcion == "Tickets por Comercial":
         rrhh_tickets_por_comercial.run()
+    elif opcion == "Desglose de Recibos":
+        rrhh_desglose_recibos.run()
 
 elif area == "Marketing":
     st.title("📈 Marketing")
