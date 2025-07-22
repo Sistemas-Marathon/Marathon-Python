@@ -3,25 +3,29 @@ import streamlit as st
 import fitz  # PyMuPDF
 from io import BytesIO
 import zipfile
-import os
 
-def buscar_dato_abajo(pagina, palabra_clave, delta_y=15):
+def buscar_dato_abajo(pagina, palabra_clave, delta_y=5):
     """
-    Busca la palabra_clave en el PDF y retorna el texto que esté justo debajo.
+    Busca la palabra_clave en el PDF y retorna el texto que esté justo debajo (en línea vertical).
     """
     bloques = pagina.get_text("dict")["blocks"]
+    candidatos = []
     for bloque in bloques:
         for linea in bloque.get("lines", []):
             for span in linea["spans"]:
                 if palabra_clave.lower() in span["text"].lower():
                     x0, y0 = span["bbox"][0], span["bbox"][1]
-                    # Buscar texto cercano hacia abajo
+                    # Buscar texto más cercano hacia abajo
                     for otro_bloque in bloques:
                         for otra_linea in otro_bloque.get("lines", []):
                             for otro_span in otra_linea["spans"]:
                                 x1, y1 = otro_span["bbox"][0], otro_span["bbox"][1]
-                                if abs(x0 - x1) < 30 and y1 > y0 and y1 - y0 < delta_y * 2:
-                                    return otro_span["text"].strip()
+                                if abs(x0 - x1) < 30 and 0 < y1 - y0 < delta_y:
+                                    candidatos.append((y1, otro_span["text"].strip()))
+    if candidatos:
+        # Ordenar por y (de menor a mayor) y tomar el primero
+        candidatos.sort()
+        return candidatos[0][1]
     return None
 
 def dividir_pdf_streamlit(pdf_bytes):
@@ -29,10 +33,9 @@ def dividir_pdf_streamlit(pdf_bytes):
     zip_buffer = BytesIO()
     with zipfile.ZipFile(zip_buffer, "a", zipfile.ZIP_DEFLATED) as zipf:
         for i, pagina in enumerate(doc):
-            legajo = buscar_dato_abajo(pagina, "Legajo") or f"desconocido_{i+1}"
-            descripcion = buscar_dato_abajo(pagina, "Descripción del pago") or "sin_descripcion"
+            legajo = buscar_dato_abajo(pagina, "Legajo", delta_y=10) or f"desconocido_{i+1}"
+            descripcion = buscar_dato_abajo(pagina, "Descripción del pago", delta_y=20) or "sin_descripcion"
 
-            # Sanitizar nombre del archivo
             nombre_archivo = f"{legajo} - {descripcion}.pdf"
             nombre_archivo = nombre_archivo.replace("/", "-").replace("\\", "-").strip()
 
@@ -60,6 +63,5 @@ def run():
             mime="application/zip"
         )
 
-# Ejecutar si se llama directamente
 if __name__ == "__main__":
     run()
