@@ -32,8 +32,8 @@ def dividir_pdf_streamlit(pdf_bytes):
     doc = fitz.open(stream=pdf_bytes, filetype="pdf")
     zip_buffer = BytesIO()
     with zipfile.ZipFile(zip_buffer, "a", zipfile.ZIP_DEFLATED) as zipf:
-        for i, pagina in enumerate(doc):
-            legajo = buscar_dato_abajo(pagina, "Legajo", delta_y=15) or f"desconocido_{i+1}"
+        for i, pagina in enumerate(doc):    
+            legajo = buscar_dato_abajo(pagina, "Legajo", delta_y=5) or f"desconocido_{i+1}"
             descripcion = buscar_dato_abajo(pagina, "Descripción del pago", delta_y=20) or "sin_descripcion"
 
             nombre_archivo = f"{legajo} - {descripcion}.pdf"
