@@ -1,3 +1,4 @@
+# rrhh_desglose_recibos.py
 import fitz  # PyMuPDF
 import os
 import re

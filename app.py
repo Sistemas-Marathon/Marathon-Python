@@ -9,6 +9,7 @@ import marketing_codigos_barra
 import rrhh_lleg_tardes
 import rrhh_modif_horarios
 import rrhh_tickets_por_comercial
+import rrhh_desglose_recibos
 
 # Configuración global
 st.set_page_config(page_title="Sistema de Automatización", layout="wide", page_icon="🛠️")
@@ -66,7 +67,7 @@ elif area == "RRHH":
     elif opcion == "Tickets por Comercial":
         rrhh_tickets_por_comercial.run()
     elif opcion == "Desglose de Recibos":
-        rrhh_desglose_recibos.run()
+        rrhh_desglose_recibos.main()
 
 elif area == "Marketing":
     st.title("📈 Marketing")
