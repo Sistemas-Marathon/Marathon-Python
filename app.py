@@ -1,5 +1,4 @@
 # app.py
-import cajas_desc_empleado
 import streamlit as st
 from PIL import Image
 import rrhh_tem_tre
@@ -12,7 +11,7 @@ import rrhh_modif_horarios
 import rrhh_tickets_por_comercial
 import rrhh_desglose_recibos
 import cajas_formas_de_pago
-
+import cajas_desc_empleado
 # Configuración global
 st.set_page_config(page_title="Sistema de Automatización", layout="wide", page_icon="🛠️")
 
