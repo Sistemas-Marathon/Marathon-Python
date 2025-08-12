@@ -1,4 +1,5 @@
 # app.py
+import cajas_desc_empleado
 import streamlit as st
 from PIL import Image
 import rrhh_tem_tre
@@ -86,6 +87,8 @@ elif area == "Control cajas":
     ])
     if opcion == "Consulta por forma de pago":
         cajas_formas_de_pago.run()
+    elif opcion == "Consulta por descuentos a empleados":
+        cajas_desc_empleado.run()
     
 
 # --- PIE DE PÁGINA ---
