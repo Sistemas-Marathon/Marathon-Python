@@ -5,7 +5,7 @@ import pyodbc
 from io import BytesIO
 
 def run():
-    st.title("🔁 Consulta por formas de pago")
+    st.title("🔁 Consulta por descuentos empleados")
 
     fecha_inicio = st.date_input("📅 Fecha de inicio")
     fecha_fin = st.date_input("📅 Fecha de fin")
