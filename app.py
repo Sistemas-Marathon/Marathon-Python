@@ -83,7 +83,8 @@ elif area == "Marketing":
 elif area == "Control cajas":
     st.title("📦 Control de Cajas")
     opcion = st.sidebar.radio("📋 Procesos disponibles:", [
-        "Consulta por forma de pago"
+        "Consulta por forma de pago",
+        "Consulta por descuentos empleados"
     ])
     if opcion == "Consulta por forma de pago":
         cajas_formas_de_pago.run()
