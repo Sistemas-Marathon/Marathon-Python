@@ -10,6 +10,7 @@ import rrhh_lleg_tardes
 import rrhh_modif_horarios
 import rrhh_tickets_por_comercial
 import rrhh_desglose_recibos
+import cajas_formas_de_pago
 
 # Configuración global
 st.set_page_config(page_title="Sistema de Automatización", layout="wide", page_icon="🛠️")
@@ -21,7 +22,7 @@ logo = Image.open("descarga.jpeg")  # Asegurate que esté en la misma carpeta de
 with st.sidebar:
     st.image(logo, width=150)
     st.title("🔧 Automatizaciones")
-    area = st.selectbox("Seleccioná el área", ["Inicio", "Supply Chain", "RRHH", "Marketing"])
+    area = st.selectbox("Seleccioná el área", ["Inicio", "Supply Chain", "RRHH", "Marketing","Control cajas"])
 
 # --- CONTENIDO PRINCIPAL ---
 if area == "Inicio":
@@ -77,6 +78,14 @@ elif area == "Marketing":
     ])
     if opcion == "Generador de Códigos de Barras":
         marketing_codigos_barra.run()
+    
+elif area == "Control cajas":
+    st.title("📦 Control de Cajas")
+    opcion = st.sidebar.radio("📋 Procesos disponibles:", [
+        "Consulta por forma de pago"
+    ])
+    if opcion == "Consulta por forma de pago":
+        cajas_formas_de_pago.run()
     
 
 # --- PIE DE PÁGINA ---
