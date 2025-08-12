@@ -87,7 +87,7 @@ elif area == "Control cajas":
     ])
     if opcion == "Consulta por forma de pago":
         cajas_formas_de_pago.run()
-    elif opcion == "Consulta por descuentos a empleados":
+    elif opcion == "Consulta por descuentos empleados":
         cajas_desc_empleado.run()
     
 
