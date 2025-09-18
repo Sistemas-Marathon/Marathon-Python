@@ -12,6 +12,7 @@ import rrhh_tickets_por_comercial
 import rrhh_desglose_recibos
 import cajas_formas_de_pago
 import cajas_desc_empleado
+import rrhh_liquidacion_comision
 # Configuración global
 st.set_page_config(page_title="Sistema de Automatización", layout="wide", page_icon="🛠️")
 
@@ -56,7 +57,8 @@ elif area == "RRHH":
         "Llegadas Tardes y Justificaciones",
         "Modificaciones de Horarios",
         "Tickets por Comercial",
-        "Desglose de Recibos"
+        "Desglose de Recibos",
+        "Liquidación de Comisiones"
     ])
     if opcion == "Tickets por hora":
         rrhh_tickets_por_hora.run()
@@ -70,6 +72,8 @@ elif area == "RRHH":
         rrhh_tickets_por_comercial.run()
     elif opcion == "Desglose de Recibos":
         rrhh_desglose_recibos.run()
+    elif opcion == "Liquidación de Comisiones":
+        rrhh_liquidacion_comision.run()
 
 elif area == "Marketing":
     st.title("📈 Marketing")
