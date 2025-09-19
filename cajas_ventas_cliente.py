@@ -22,40 +22,49 @@ def run():
             conn = pyodbc.connect(conn_str)
 
             query = """
-            -- Rango de fechas (inclusive)
+            	-- Rango de fechas (inclusive)
 DECLARE @desde date = ?;
 DECLARE @hasta date = ?;
 
-WITH conteo AS (
+WITH base AS (
   SELECT
-    GL_ETABLISSEMENT,
-    GL_TIERS,
-    COUNT(*) AS repeticiones
-  FROM [MARAPROD24].[dbo].[LIGNE]
-  WHERE GL_NATUREPIECEG IN ('FFO', 'TIC')
-    AND GL_DATEPIECE >= @desde
-    AND GL_DATEPIECE < DATEADD(day, 1, @hasta)  -- inclusivo hasta @hasta
-    -- AND GL_TIERS IS NOT NULL  -- (descomentá si querés omitir nulos)
-  GROUP BY GL_ETABLISSEMENT, GL_TIERS
+    gp_etablissement,
+    gp_tiers = UPPER(LTRIM(RTRIM(gp_tiers)))
+  FROM piece
+  WHERE GP_NATUREPIECEG IN ('FFO') 
+    AND GP_DATEPIECE >= @desde
+    AND GP_DATEPIECE < DATEADD(day, 1, @hasta)  -- inclusivo hasta @hasta
+    AND GP_TYPECOMPTA IN ('FAC','TIC')
+    AND (GP_SUPPRIME IS NULL OR GP_SUPPRIME <> 'X')
+    -- AND GP_TIERS = 'defecto'  -- <- descomentar si querés un cliente puntual
 ),
-top10 AS (
+conteo AS (
   SELECT
-    GL_ETABLISSEMENT,
-    GL_TIERS,
+    gp_etablissement,
+    gp_tiers,
+    COUNT(*) AS repeticiones
+  FROM base
+  WHERE gp_tiers IS NOT NULL AND gp_tiers <> ''
+  GROUP BY gp_etablissement, gp_tiers
+),
+ranked AS (
+  SELECT
+    gp_etablissement,
+    gp_tiers,
     repeticiones,
     ROW_NUMBER() OVER (
-      PARTITION BY GL_ETABLISSEMENT
-      ORDER BY repeticiones DESC, GL_TIERS
+      PARTITION BY gp_etablissement
+      ORDER BY repeticiones DESC, gp_tiers
     ) AS rn
   FROM conteo
 )
 SELECT
-  GL_ETABLISSEMENT,
-  GL_TIERS,
+  gp_etablissement,
+  gp_tiers,
   repeticiones
-FROM top10
+FROM ranked
 WHERE rn <= 10
-ORDER BY GL_ETABLISSEMENT, repeticiones DESC, GL_TIERS;
+ORDER BY gp_etablissement, repeticiones DESC, gp_tiers;
 
             """
 
