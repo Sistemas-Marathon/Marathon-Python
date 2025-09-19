@@ -13,6 +13,7 @@ import rrhh_desglose_recibos
 import cajas_formas_de_pago
 import cajas_desc_empleado
 import rrhh_liquidacion_comision
+import cajas_ventas_cliente
 # Configuración global
 st.set_page_config(page_title="Sistema de Automatización", layout="wide", page_icon="🛠️")
 
@@ -87,12 +88,15 @@ elif area == "Control cajas":
     st.title("📦 Control de Cajas")
     opcion = st.sidebar.radio("📋 Procesos disponibles:", [
         "Consulta por forma de pago",
-        "Consulta por descuentos empleados"
+        "Consulta por descuentos empleados",
+        "Consulta de clientes por venta"
     ])
     if opcion == "Consulta por forma de pago":
         cajas_formas_de_pago.run()
     elif opcion == "Consulta por descuentos empleados":
         cajas_desc_empleado.run()
+    elif opcion == "Consulta de clientes por venta":
+        cajas_ventas_cliente.run()
     
 
 # --- PIE DE PÁGINA ---
