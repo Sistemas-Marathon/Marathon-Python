@@ -14,6 +14,7 @@ import cajas_formas_de_pago
 import cajas_desc_empleado
 import rrhh_liquidacion_comision
 import cajas_ventas_cliente
+import cajas_ventas_banco
 # Configuración global
 st.set_page_config(page_title="Sistema de Automatización", layout="wide", page_icon="🛠️")
 
@@ -89,7 +90,8 @@ elif area == "Control cajas":
     opcion = st.sidebar.radio("📋 Procesos disponibles:", [
         "Consulta por forma de pago",
         "Consulta por descuentos empleados",
-        "Consulta de clientes por venta"
+        "Consulta de clientes por venta",
+        "Consulta de ventas por banco"
     ])
     if opcion == "Consulta por forma de pago":
         cajas_formas_de_pago.run()
@@ -97,8 +99,11 @@ elif area == "Control cajas":
         cajas_desc_empleado.run()
     elif opcion == "Consulta de clientes por venta":
         cajas_ventas_cliente.run()
+    elif opcion == "Consulta de ventas por banco":
+        cajas_ventas_banco.run()
     
 
 # --- PIE DE PÁGINA ---
 st.markdown("---")
 st.markdown("<center>🔒 Sistema interno de uso exclusivo - Santiago Sosa</center>", unsafe_allow_html=True)
+
