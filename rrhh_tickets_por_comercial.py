@@ -38,7 +38,7 @@ def run():
             INNER JOIN
                 UTILISAT ON GP_CREATEUR = US_UTILISATEUR
             WHERE
-                (GP_DATEPIECE >= ? AND GP_DATEPIECE < ? AND GP_NATUREPIECEG IN ('FFO'));
+                (GP_DATEPIECE >= ? AND GP_DATEPIECE < ? AND GP_NATUREPIECEG IN ('FFO') AND GP_TYPECOMPTA IN ('FAC','TIC'));
             """
 
             df = pd.read_sql(query, conn, params=[fecha_inicio, fecha_fin])
