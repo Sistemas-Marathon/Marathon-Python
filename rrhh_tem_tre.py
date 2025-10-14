@@ -30,13 +30,13 @@ def run():
                 GP_ETABLISSEMENT AS [Establecimiento doc.],
                 GP_ETABLISSDEST AS [Destinatario], 
                 GL_CODESDIM AS [Código artículo], 
-                US_LIBELLE AS [Usuario origen], 
+                US_LIBELLE AS [Usuario modif], 
                 GL_QTEFACT AS [Cantidad], 
                 GP_DATEPIECE AS [Fecha Documento], 
                 GL_LIBELLE AS [Nombre artículo], 
                 GP_NUMERO AS [N° Documento]
             FROM GCLIGNEARTDIM 
-            INNER JOIN UTILISAT ON GL_CREATEUR=US_UTILISATEUR
+            INNER JOIN UTILISAT ON GP_UTILISATEUR=US_UTILISATEUR
             WHERE (GP_DATEPIECE >= ? AND GP_DATEPIECE < ? AND GP_NATUREPIECEG IN ('TEM', 'TRE')) 
             AND GA_CODEARTICLE IS NULL
             """
