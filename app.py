@@ -15,6 +15,7 @@ import cajas_desc_empleado
 import rrhh_liquidacion_comision
 import cajas_ventas_cliente
 import cajas_ventas_banco
+import rrhh_desglose_recibos_dab
 # Configuración global
 st.set_page_config(page_title="Sistema de Automatización", layout="wide", page_icon="🛠️")
 
@@ -60,6 +61,7 @@ elif area == "RRHH":
         "Modificaciones de Horarios",
         "Tickets por Comercial",
         "Desglose de Recibos",
+        "Desglose de Recibos DAB",
         "Liquidación de Comisiones"
     ])
     if opcion == "Tickets por hora":
@@ -74,6 +76,8 @@ elif area == "RRHH":
         rrhh_tickets_por_comercial.run()
     elif opcion == "Desglose de Recibos":
         rrhh_desglose_recibos.run()
+    elif opcion == "Desglose de Recibos DAB":
+        rrhh_desglose_recibos_dab.run()
     elif opcion == "Liquidación de Comisiones":
         rrhh_liquidacion_comision.run()
 
@@ -106,4 +110,5 @@ elif area == "Control cajas":
 # --- PIE DE PÁGINA ---
 st.markdown("---")
 st.markdown("<center>🔒 Sistema interno de uso exclusivo - Santiago Sosa</center>", unsafe_allow_html=True)
+
 
