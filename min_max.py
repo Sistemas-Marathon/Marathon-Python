@@ -1,73 +1,101 @@
-# rrhh_maxmin_series.py
+# rrhh_maxmin_streamlit.py
 import streamlit as st
 import pandas as pd
-import pyodbc
-from io import BytesIO
 from datetime import datetime
+from io import BytesIO
 
 def run():
-    st.title("📦 Stock Mínimo y Máximo por Serie")
+    st.title("📦 Stock Mínimo y Máximo por Código de Barras")
 
-    uploaded_file = st.file_uploader("📤 Subí el archivo Excel base", type=["xlsx"])
+    uploaded_file = st.file_uploader(
+        "📤 Subí el archivo Excel base (múltiples hojas)",
+        type=["xlsx"]
+    )
 
     if uploaded_file and st.button("📊 Procesar archivo"):
         try:
-            # Conexión
-            conn_str = (
-                'DRIVER={ODBC Driver 17 for SQL Server};'
-                'SERVER=181.209.94.152,29433;'
-                'DATABASE=MARAPROD24;'
-                'UID=BIMA;'
-                'PWD=Mar2024*'
+            # Leer todas las hojas del Excel
+            excel_data = pd.read_excel(
+                uploaded_file,
+                sheet_name=None,
+                engine="openpyxl"
             )
-            conn = pyodbc.connect(conn_str)
 
-            # Leer el Excel
-            df_excel = pd.read_excel(uploaded_file, header=None, dtype={0: str})
-            almacenes = df_excel.iloc[0, 1:].tolist()
-
-            csv_data = []
             fecha_actualArchivo = datetime.now().strftime('%d-%m-%Y_%H-%M-%S')
+            csv_data = []
 
-            # Iterar por filas
-            for i in range(1, len(df_excel)):
-                codigo_articulo = df_excel.iloc[i, 0]
-                for j in range(1, len(df_excel.columns)):
-                    codigo_serie = df_excel.iloc[i, j]
-                    if pd.isna(codigo_articulo) or pd.isna(codigo_serie):
-                        continue
+            for sheet_name, df in excel_data.items():
+                st.write(f"📄 Procesando hoja: **{sheet_name}**")
 
-                    almacen = almacenes[j - 1]
+                # Renombrar primera columna como codigo_barras
+                df = df.rename(columns={df.columns[0]: 'codigo_barras'})
 
-                    query = f"""
-                    SELECT 
-                        GA_CODEBARRE,
-                        GAM_QTEDISPOMINI,
-                        GAM_QTEDISPOMAXI
-                    FROM ARTICLESERIE
-                    INNER JOIN DIMMASQUE ON GDM_MASQUE=GAM_DIMMASQUE AND GDM_TYPEMASQUE='LON'
-                    INNER JOIN ARTICLE ON GAM_DIMMASQUE=GA_DIMMASQUE AND GAM_GRILLEDIM1=GA_GRILLEDIM1 AND GAM_GRILLEDIM2=GA_GRILLEDIM2 
-                        AND GAM_CODEDIM1=GA_CODEDIM1 AND GAM_CODEDIM2=GA_CODEDIM2 AND GA_CODEARTICLE='{codigo_articulo}'
-                    WHERE GAM_CODESERIE='{codigo_serie}'
-                    """
+                # Filtrar filas con códigos válidos
+                df = df[
+                    df['codigo_barras'].notna() &
+                    (df['codigo_barras'].astype(str).str.strip() != '')
+                ]
 
-                    df_query = pd.read_sql(query, conn)
+                for row in df.itertuples(index=False):
+                    codigo_barras = str(row.codigo_barras).strip()
 
-                    for _, result_row in df_query.iterrows():
-                        csv_data.append([
-                            'SMIC1_',
-                            result_row['GA_CODEBARRE'],
-                            f"{int(result_row['GAM_QTEDISPOMINI'])};{int(result_row['GAM_QTEDISPOMAXI'])}",
-                            almacen
-                        ])
+                    for col_name, valor_celda in zip(df.columns[1:], row[1:]):
+                        if (
+                            pd.notna(valor_celda)
+                            and isinstance(valor_celda, str)
+                            and ';' in valor_celda
+                        ):
+                            partes = valor_celda.split(';')
 
-            conn.close()
+                            if len(partes) == 2:
+                                try:
+                                    stock_min = int(partes[0].strip())
+                                    stock_max = int(partes[1].strip())
 
-            # Armar el DataFrame resultado
-            csv_df = pd.DataFrame(csv_data, columns=['ENCABEZADO', 'CODIGO_BARRA', 'MIN;MAX', 'ALMACEN'])
+                                    csv_data.append([
+                                        'SMIC1_',
+                                        codigo_barras,
+                                        stock_min,
+                                        stock_max,
+                                        col_name
+                                    ])
+                                except ValueError:
+                                    st.warning(
+                                        f"⚠️ Valores no numéricos | Hoja: {sheet_name} | "
+                                        f"Código: {codigo_barras} | Columna: {col_name}"
+                                    )
+                            else:
+                                st.warning(
+                                    f"⚠️ Formato incorrecto | Hoja: {sheet_name} | "
+                                    f"Código: {codigo_barras} | Columna: {col_name}"
+                                )
+
+                        elif pd.notna(valor_celda):
+                            st.warning(
+                                f"⚠️ Formato inválido (sin ;) | Hoja: {sheet_name} | "
+                                f"Código: {codigo_barras} | Columna: {col_name}"
+                            )
+
+            # Crear DataFrame final
+            csv_df = pd.DataFrame(
+                csv_data,
+                columns=[
+                    'ENCABEZADO',
+                    'CODIGO DE BARRAS',
+                    'STOCK MIN',
+                    'STOCK MAX',
+                    'ALMACEN'
+                ]
+            )
 
             output = BytesIO()
-            csv_df.to_csv(output, index=False, sep='|')
+            csv_df.to_csv(
+                output,
+                index=False,
+                sep='|',
+                encoding='utf-8-sig'
+            )
+
             st.success(f"✅ Procesado correctamente: {len(csv_df)} registros")
 
             st.download_button(
@@ -78,4 +106,4 @@ def run():
             )
 
         except Exception as e:
-            st.error(f"❌ Error: {e}")
+            st.error(f"❌ Error durante el procesamiento: {e}")
