@@ -33,12 +33,12 @@ def run():
                 US_LIBELLE AS [Usuario modif], 
                 GL_QTEFACT AS [Cantidad], 
                 GP_DATEPIECE AS [Fecha Documento], 
-                GL_LIBELLE AS [Nombre artículo], 
-                GL_FAMILLENIV1 AS [Tipo articulo]
+                GL_LIBELLE AS [Nombre artículo]
             FROM GCLIGNEARTDIM 
             INNER JOIN UTILISAT ON GP_UTILISATEUR=US_UTILISATEUR
             WHERE (GP_DATEPIECE >= ? AND GP_DATEPIECE < ? AND GP_NATUREPIECEG IN ('TEM', 'TRE')) 
             AND GA_CODEARTICLE IS NULL
+            AND GL_FAMILLENIV1!='INS'
             """
 
             df = pd.read_sql(query, conn, params=[fecha_inicio, fecha_fin])
