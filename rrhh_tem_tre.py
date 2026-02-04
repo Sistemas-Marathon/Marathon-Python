@@ -34,7 +34,7 @@ def run():
                 GL_QTEFACT AS [Cantidad], 
                 GP_DATEPIECE AS [Fecha Documento], 
                 GL_LIBELLE AS [Nombre artículo], 
-                GP_NUMERO AS [N° Documento]
+                GL_FAMILLENIV1 AS [Tipo articulo]
             FROM GCLIGNEARTDIM 
             INNER JOIN UTILISAT ON GP_UTILISATEUR=US_UTILISATEUR
             WHERE (GP_DATEPIECE >= ? AND GP_DATEPIECE < ? AND GP_NATUREPIECEG IN ('TEM', 'TRE')) 
