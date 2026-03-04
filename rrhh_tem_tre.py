@@ -24,8 +24,7 @@ def run():
             query = """
             SELECT 
                 GL_REPRESENTANT AS [Comercial 2 (depo central)], 
-                GP_REPRESENTANT2 AS [Comercial (locales)], 
-                GP_NUMERO AS [Nro documento],
+                GP_REPRESENTANT2 AS [Comercial (locales)],
                 GP_NATUREPIECEG AS [Clase], 
                 GL_ETABLISSEMENT AS [Establecimiento línea],
                 GP_ETABLISSEMENT AS [Establecimiento doc.],
@@ -34,7 +33,8 @@ def run():
                 US_LIBELLE AS [Usuario modif], 
                 GL_QTEFACT AS [Cantidad], 
                 GP_DATEPIECE AS [Fecha Documento], 
-                GL_LIBELLE AS [Nombre artículo]
+                GL_LIBELLE AS [Nombre artículo],
+                GP_NUMERO AS [Nro documento]
             FROM GCLIGNEARTDIM 
             INNER JOIN UTILISAT ON GP_UTILISATEUR=US_UTILISATEUR
             WHERE (GP_DATEPIECE >= ? AND GP_DATEPIECE < ? AND GP_NATUREPIECEG IN ('TEM', 'TRE')) 
