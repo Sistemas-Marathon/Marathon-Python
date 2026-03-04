@@ -25,7 +25,7 @@ def run():
             SELECT 
                 GL_REPRESENTANT AS [Comercial 2 (depo central)], 
                 GP_REPRESENTANT2 AS [Comercial (locales)], 
-                GP_NUMERO AS [Nro documento]
+                GP_NUMERO AS [Nro documento],
                 GP_NATUREPIECEG AS [Clase], 
                 GL_ETABLISSEMENT AS [Establecimiento línea],
                 GP_ETABLISSEMENT AS [Establecimiento doc.],
