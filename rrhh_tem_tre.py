@@ -29,7 +29,7 @@ def run():
                 GL_ETABLISSEMENT AS [Establecimiento línea],
                 GP_ETABLISSEMENT AS [Establecimiento doc.],
                 GP_ETABLISSDEST AS [Destinatario], 
-                GL_CODESDIM AS [Código artículo], 
+                GL_CODEARTICLE AS [Código artículo], 
                 US_LIBELLE AS [Usuario modif], 
                 GL_QTEFACT AS [Cantidad], 
                 GP_DATEPIECE AS [Fecha Documento], 
