@@ -16,6 +16,7 @@ import rrhh_liquidacion_comision
 import cajas_ventas_cliente
 import cajas_ventas_banco
 import rrhh_desglose_recibos_dab
+import lista_art
 # Configuración global
 st.set_page_config(page_title="Sistema de Automatización", layout="wide", page_icon="🛠️")
 
@@ -45,11 +46,13 @@ if area == "Inicio":
 
 elif area == "Supply Chain":
     st.title("🚚 Supply Chain")
-    opcion = st.sidebar.radio("📦 Procesos disponibles:", ["Reposición Cruzada", "Minimos y Máximos"])
+    opcion = st.sidebar.radio("📦 Procesos disponibles:", ["Reposición Cruzada", "Minimos y Máximos", "Lista artículos"])
     if opcion == "Reposición Cruzada":
         reposicion_cruzada.run()
     elif opcion == "Minimos y Máximos":
         min_max.run()
+    elif opcion == "Lista artículos":
+        lista_art.run()
 
 # En la sección "RRHH"
 elif area == "RRHH":
@@ -110,5 +113,6 @@ elif area == "Control cajas":
 # --- PIE DE PÁGINA ---
 st.markdown("---")
 st.markdown("<center>🔒 Sistema interno de uso exclusivo - Santiago Sosa</center>", unsafe_allow_html=True)
+
 
 
