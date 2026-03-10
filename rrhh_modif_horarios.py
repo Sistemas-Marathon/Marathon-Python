@@ -33,7 +33,7 @@ def run():
             FROM 
             MPLAGESALARIE
             INNER JOIN UTILISAT ON MPS_UTILISATEUR = US_UTILISATEUR
-                where mps_modepla='001'	and MPS_DATEDEBPLAGE BETWEEN ?   ?
+                where mps_modepla='001'	and MPS_DATEDEBPLAGE BETWEEN ?  AND  ?
                 order by MPS_DATEDEBPLAGE desc
             """
 
