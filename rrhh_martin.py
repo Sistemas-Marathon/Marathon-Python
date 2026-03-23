@@ -23,7 +23,7 @@ def run():
             conn = pyodbc.connect(conn_str)
 
             # Consulta
-             query = """SELECT 
+            query = """SELECT 
     GL_DATEPIECE AS FECHA,
     GL_REPRESENTANT AS COMERCIAL,
     GCL_LIBELLE AS NOMBRE_COMERCIAL,
