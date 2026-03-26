@@ -26,7 +26,7 @@ def run():
             query = """SELECT 
                 MPS_DATEMODIF AS FECHA_MODIFICACION,
                 MPS_COMMERCIAL AS COMERCIAL,
-                GCL_LIBELLEe AS NOMBRE_COMERCIAL,
+                GCL_LIBELLE AS NOMBRE_COMERCIAL,
                 MPS_ETABLISSEMENT AS ESTABLECIMIENTO,
                 MPS_DATEDEBPLAGE AS FECHA_INICIO,
                 MPS_DATEFINPLAGE AS FECHA_FIN,
