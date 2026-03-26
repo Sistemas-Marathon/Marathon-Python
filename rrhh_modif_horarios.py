@@ -26,6 +26,7 @@ def run():
             query = """SELECT 
                 MPS_DATEMODIF AS FECHA_MODIFICACION,
                 MPS_COMMERCIAL AS COMERCIAL,
+                GCL_LIBELLE AS NOMBRE_COMERCIAL,
                 MPS_ETABLISSEMENT AS ESTABLECIMIENTO,
                 MPS_DATEDEBPLAGE AS FECHA_INICIO,
                 MPS_DATEFINPLAGE AS FECHA_FIN,
@@ -33,6 +34,7 @@ def run():
             FROM 
             MPLAGESALARIE
             INNER JOIN UTILISAT ON MPS_UTILISATEUR = US_UTILISATEUR
+            LEFT JOIN COMMERCIAL ON MPS_COMMERCIAL=GCL_COMMERCIAL
                 where mps_modepla='001'	and MPS_DATEDEBPLAGE BETWEEN ?  AND  ?
                 order by MPS_DATEDEBPLAGE desc
             """
