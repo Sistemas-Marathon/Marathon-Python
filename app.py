@@ -18,7 +18,7 @@ import cajas_ventas_banco
 import rrhh_desglose_recibos_dab
 import lista_art
 import rrhh_martin
-import RRHH_ACTIVIDAD
+import rrhh_actividad
 # Configuración global
 st.set_page_config(page_title="Sistema de Automatización", layout="wide", page_icon="🛠️")
 
