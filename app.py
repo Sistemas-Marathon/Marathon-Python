@@ -90,7 +90,7 @@ elif area == "RRHH":
     elif opcion == "Reporte Martin":
         rrhh_martin.run()
     elif opcion == "Reporte Actividad en Masa":
-        rrhh_martin.run()
+        rrhh_actividad.run()
 
 elif area == "Marketing":
     st.title("📈 Marketing")
