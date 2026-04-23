@@ -18,6 +18,7 @@ import cajas_ventas_banco
 import rrhh_desglose_recibos_dab
 import lista_art
 import rrhh_martin
+import RRHH_ACTIVIDAD
 # Configuración global
 st.set_page_config(page_title="Sistema de Automatización", layout="wide", page_icon="🛠️")
 
@@ -67,7 +68,8 @@ elif area == "RRHH":
         "Desglose de Recibos",
         "Desglose de Recibos DAB",
         "Liquidación de Comisiones",
-        "Reporte Martin"
+        "Reporte Martin",
+        "Reporte Actividad en Masa"
     ])
     if opcion == "Tickets por hora":
         rrhh_tickets_por_hora.run()
@@ -86,6 +88,8 @@ elif area == "RRHH":
     elif opcion == "Liquidación de Comisiones":
         rrhh_liquidacion_comision.run()
     elif opcion == "Reporte Martin":
+        rrhh_martin.run()
+    elif opcion == "Reporte Actividad en Masa":
         rrhh_martin.run()
 
 elif area == "Marketing":
