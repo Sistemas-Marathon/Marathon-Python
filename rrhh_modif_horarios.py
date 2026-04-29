@@ -1,7 +1,7 @@
 # rrhh_modif_horarios.py
 import streamlit as st
 import pandas as pd
-import pyodbc
+import pymssql
 from io import BytesIO
 
 def run():
@@ -13,14 +13,13 @@ def run():
     if st.button("📥 Consultar y descargar"):
         try:
             # Conexión
-            conn_str = (
-                'DRIVER={ODBC Driver 17 for SQL Server};'
-                'SERVER=181.209.94.152,29433\\MARAPROD24;'
-                'DATABASE=MARAPROD24;'
-                'UID=BIMA;'
-                'PWD=Mar2024*'
+            conn = pymssql.connect(
+                server=st.secrets["DB_SERVER"],
+                port=int(st.secrets["DB_PORT"]),
+                user=st.secrets["DB_USER"],
+                password=st.secrets["DB_PASSWORD"],
+                database=st.secrets["DB_NAME"],
             )
-            conn = pyodbc.connect(conn_str)
 
             # Consulta
             query = """SELECT 
