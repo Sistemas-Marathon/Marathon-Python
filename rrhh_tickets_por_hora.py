@@ -32,8 +32,8 @@ def run():
                 1 AS Cantidad
             FROM [MARAPROD24].[dbo].[PIECE]
             WHERE GP_NATUREPIECEG = 'FFO'
-              AND GP_DATECREATION >= ?
-              AND GP_DATECREATION <= ?
+              AND GP_DATECREATION >= %s
+              AND GP_DATECREATION <= %s
               AND GP_TYPECOMPTA <> 'TRE'
             ORDER BY GP_HEURECREATION;
             """
