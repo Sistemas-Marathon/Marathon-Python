@@ -79,8 +79,8 @@ def run():
 
             WHERE 
                 r.MPS_IDPLAGEPREV IS NOT NULL AND 
-                r.MPS_DATEDEBPLAGE >= ? AND 
-                r.MPS_DATEDEBPLAGE <= ? 
+                r.MPS_DATEDEBPLAGE >= %s AND 
+                r.MPS_DATEDEBPLAGE <= %s 
 
             """
 
