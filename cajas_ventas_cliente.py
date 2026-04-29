@@ -22,8 +22,8 @@ def run():
 
             query = """
             	-- Rango de fechas (inclusive)
-DECLARE @desde date = ?;
-DECLARE @hasta date = ?;
+DECLARE @desde date = %s;
+DECLARE @hasta date = %s;
 
 WITH base AS (
   SELECT
