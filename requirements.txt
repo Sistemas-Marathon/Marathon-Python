@@ -5,3 +5,5 @@ pyodbc
 python-barcode
 Pillow
 pymupdf
+pymssql
+sqlalchemy
