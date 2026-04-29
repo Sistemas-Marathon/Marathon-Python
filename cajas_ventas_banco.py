@@ -33,7 +33,7 @@ def run():
                 GPE_CBNUMTRANSAC AS NRO_TARJETA
             FROM GCREGLEMENTFO
             WHERE GPE_CBNUMTRANSAC <> ''
-              AND GPE_DATEPIECE BETWEEN ? AND ?;
+              AND GPE_DATEPIECE BETWEEN %s AND %s;
             """
 
             df = pd.read_sql(query, conn, params=[fecha_inicio, fecha_fin])
