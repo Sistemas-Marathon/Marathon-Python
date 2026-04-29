@@ -36,7 +36,7 @@ def run():
                 GP_NUMERO AS [Nro documento]
             FROM GCLIGNEARTDIM 
             INNER JOIN UTILISAT ON GP_UTILISATEUR=US_UTILISATEUR
-            WHERE (GP_DATEPIECE >= ? AND GP_DATEPIECE < ? AND GP_NATUREPIECEG IN ('TEM', 'TRE')) 
+            WHERE (GP_DATEPIECE >= %s AND GP_DATEPIECE < %s AND GP_NATUREPIECEG IN ('TEM', 'TRE')) 
             AND GA_CODEARTICLE IS NOT NULL
             AND GL_FAMILLENIV1!='INS'
             """
