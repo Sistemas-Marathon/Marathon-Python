@@ -19,9 +19,9 @@ def run():
                 password=st.secrets["DB_PASSWORD"],
                 database=st.secrets["DB_NAME"],
             )
-
+            fecha_inicio_sql = fecha_inicio.strftime("%Y-%m-%d")
+            fecha_fin_sql = fecha_fin.strftime("%Y-%m-%d")
             query = """
-            SET DATEFORMAT dmy;
             SELECT
                 GPE_DATEPIECE AS FECHA_TRANS,
                 GPE_NUMERO AS NUMERO_TICKET,
@@ -33,10 +33,11 @@ def run():
                 GPE_CBNUMTRANSAC AS NRO_TARJETA
             FROM GCREGLEMENTFO
             WHERE GPE_CBNUMTRANSAC <> ''
-              AND GPE_DATEPIECE BETWEEN %s AND %s;
+              AND GPE_DATEPIECE >= CONVERT(date, %s, 23)
+              AND GPE_DATEPIECE < DATEADD(day, 1, CONVERT(date, %s, 23));
             """
 
-            df = pd.read_sql(query, conn, params=[fecha_inicio, fecha_fin])
+            df = pd.read_sql(query, conn, params=[fecha_inicio_sql, fecha_fin_sql])
             conn.close()
 
             # Agregamos mapeo de BIN → Banco
