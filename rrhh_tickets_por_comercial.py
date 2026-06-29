@@ -31,13 +31,27 @@ def run():
                 GP_CAISSE AS [Caja],
                 GP_TOTALTTC AS [Total IVA inc],
                 GP_TOTALHT AS [Total exc. IVA documento],
-                US_LIBELLE AS [Ultimo usuario]
+                US_LIBELLE AS [Ultimo usuario],
+                CASE
+                    WHEN LTRIM(RTRIM(GP_ETABLISSEMENT)) = '249999'
+                      OR UPPER(LTRIM(RTRIM(ET_TYPEETAB))) = 'ECO'
+                      OR UPPER(ET_LIBELLE) LIKE '%ECOM%'
+                      OR UPPER(LTRIM(RTRIM(GP_ETABLISSEMENT))) IN ('ECOMMERCE', 'E-COMMERCE', 'ECOM', 'WEB', 'ONLINE')
+                      OR UPPER(LTRIM(RTRIM(GP_CAISSE))) IN ('ECOMMERCE', 'E-COMMERCE', 'ECOM', 'WEB', 'ONLINE')
+                      OR UPPER(US_LIBELLE) LIKE '%ECOM%'
+                      OR UPPER(US_LIBELLE) LIKE '%WEB%'
+                      OR UPPER(US_LIBELLE) LIKE '%ONLINE%'
+                    THEN 'E-commerce'
+                    ELSE 'Local'
+                END AS [Canal venta]
             FROM    
                 [MARAPROD24].[dbo].[PIECE]
             INNER JOIN
                 UTILISAT ON GP_CREATEUR = US_UTILISATEUR
+            LEFT JOIN
+                ETABLISS ON GP_ETABLISSEMENT = ET_ETABLISSEMENT
             WHERE
-                (GP_DATEPIECE >= %s AND GP_DATEPIECE < %s 
+                (GP_DATEPIECE >= %s AND GP_DATEPIECE < DATEADD(day, 1, %s)
                 AND GP_NATUREPIECEG IN ('FFO') 
                 AND GP_TYPECOMPTA IN ('FAC','TIC'));
             """
