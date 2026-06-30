@@ -43,7 +43,8 @@ def run():
                       OR UPPER(US_LIBELLE) LIKE '%ONLINE%'
                     THEN 'E-commerce'
                     ELSE 'Local'
-                END AS [Canal venta]
+                END AS [Canal venta],
+                GP_TYPEPROVENANCE AS [Tipo]
             FROM    
                 [MARAPROD24].[dbo].[PIECE]
             INNER JOIN
