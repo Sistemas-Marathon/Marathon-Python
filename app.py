@@ -120,7 +120,7 @@ elif area == "Control cajas":
 
 # --- PIE DE PÁGINA ---
 st.markdown("---")
-st.markdown("<center>🔒 Sistema interno de uso exclusivo - Santiago Sosa</center>", unsafe_allow_html=True)
+st.markdown("<center>🔒 Sistema interno de uso exclusivo - Marathon</center>", unsafe_allow_html=True)
 
 
 
