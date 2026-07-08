@@ -23,18 +23,22 @@ def run():
             fecha_fin_sql = fecha_fin.strftime("%Y-%m-%d")
             query = """
             SELECT
-                GPE_DATEPIECE AS FECHA_TRANS,
-                GPE_NUMERO AS NUMERO_TICKET,
-                GPE_SOUCHE AS SUC,
-                GPE_MODEPAIE AS COD_PAGO,
-                MP_LIBELLE AS TARJETA,
-                GPE_CBNBVERSEMENT AS CUOTAS,
-                GPE_MONTANTECHE AS PRECIO,
-                GPE_CBNUMTRANSAC AS NRO_TARJETA
-            FROM GCREGLEMENTFO
-            WHERE GPE_CBNUMTRANSAC <> ''
-              AND GPE_DATEPIECE >= CONVERT(date, %s, 23)
-              AND GPE_DATEPIECE < DATEADD(day, 1, CONVERT(date, %s, 23));
+                G.GPE_DATEPIECE AS FECHA_TRANS,
+                G.GPE_NUMERO AS NUMERO_TICKET,
+                G.GPE_SOUCHE AS SUC,
+                G.GPE_MODEPAIE AS COD_PAGO,
+                G.GPE_CBNBVERSEMENT AS CUOTAS,
+                G.GPE_MONTANTECHE AS PRECIO,
+                MB.MBE_BLOCNOTE AS NRO_TARJETA
+            FROM GCREGLEMENTFO G
+            INNER JOIN MPIEDECHEOLE MB
+                ON MB.MBE_SOUCHE = G.GPE_SOUCHE
+                AND MB.MBE_NUMERO = G.GPE_NUMERO
+                AND MB.MBE_INDICEG = G.GPE_INDICEG
+                AND MB.MBE_NUMECHE = G.GPE_NUMECHE
+            WHERE MB.MBE_BLOCNOTE IS NOT NULL
+              AND G.GPE_DATEPIECE >= CONVERT(date, %s, 23)
+              AND G.GPE_DATEPIECE < DATEADD(day, 1, CONVERT(date, %s, 23));
             """
 
             df = pd.read_sql(query, conn, params=[fecha_inicio_sql, fecha_fin_sql])
@@ -57,6 +61,11 @@ def run():
             df = df.merge(bin_df, on="BIN", how="left")
             df.rename(columns={"Issuer": "BANCO"}, inplace=True)
             df["BANCO"] = df["BANCO"].fillna("Desconocido")
+            
+            # Agregar tipo de tarjeta si existe la columna en base.xlsx
+            if "TIPO_TARJETA" in bin_df.columns:
+                df.rename(columns={"TIPO_TARJETA": "TIPO_TARJETA"}, inplace=True)
+                df["TIPO_TARJETA"] = df["TIPO_TARJETA"].fillna("Desconocido")
 
             st.success(f"✅ Consulta exitosa: {len(df)} registros")
             st.dataframe(df)
