@@ -21,22 +21,16 @@ def run():
             )
 
             query = """
-            SELECT 
-                GL_REPRESENTANT AS [Comercial 2 (depo central)], 
-                GP_REPRESENTANT2 AS [Comercial (locales)],
-                GP_NATUREPIECEG AS [Clase], 
+            SELECT
+                CONVERT(DATETIME, CONVERT(VARCHAR(10), GP_DATEPIECE, 120) + ' ' + CONVERT(VARCHAR(8), GP_HEURECREATION, 108)) AS [Fecha Documento],
+                GP_NATUREPIECEG AS [Clase],
                 GL_ETABLISSEMENT AS [Establecimiento línea],
-                GP_ETABLISSEMENT AS [Establecimiento doc.],
-                GP_ETABLISSDEST AS [Destinatario], 
-                GL_CODEARTICLE AS [Código artículo], 
-                US_LIBELLE AS [Usuario modif], 
-                GL_QTEFACT AS [Cantidad], 
-                GP_DATEPIECE AS [Fecha Documento], 
-                GL_LIBELLE AS [Nombre artículo],
-                GP_NUMERO AS [Nro documento]
-            FROM GCLIGNEARTDIM 
+                US_LIBELLE AS [Usuario modif],
+                GL_QTEFACT AS [Cantidad],
+                GL_FAMILLENIV1 AS [Tipo producto línea]
+            FROM GCLIGNEARTDIM
             INNER JOIN UTILISAT ON GP_UTILISATEUR=US_UTILISATEUR
-            WHERE (GP_DATEPIECE >= %s AND GP_DATEPIECE < %s AND GP_NATUREPIECEG IN ('TEM', 'TRE')) 
+            WHERE (GP_DATEPIECE >= %s AND GP_DATEPIECE < DATEADD(day, 1, %s) AND GP_NATUREPIECEG IN ('TEM', 'TRE'))
             AND GA_CODEARTICLE IS NOT NULL
             AND GL_FAMILLENIV1!='INS'
             """

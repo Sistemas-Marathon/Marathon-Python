@@ -19,6 +19,7 @@ import rrhh_desglose_recibos_dab
 import lista_art
 import rrhh_martin
 import rrhh_actividad
+import rrhh_recepcion_proveedor
 # Configuración global
 st.set_page_config(page_title="Sistema de Automatización", layout="wide", page_icon="🛠️")
 
@@ -69,7 +70,8 @@ elif area == "RRHH":
         "Desglose de Recibos DAB",
         "Liquidación de Comisiones",
         "Reporte Martin",
-        "Reporte Actividad en Masa"
+        "Reporte Actividad en Masa",
+        "Recepción de Proveedor"
     ])
     if opcion == "Tickets por hora":
         rrhh_tickets_por_hora.run()
@@ -91,6 +93,8 @@ elif area == "RRHH":
         rrhh_martin.run()
     elif opcion == "Reporte Actividad en Masa":
         rrhh_actividad.run()
+    elif opcion == "Recepción de Proveedor":
+        rrhh_recepcion_proveedor.run()
 
 elif area == "Marketing":
     st.title("📈 Marketing")
