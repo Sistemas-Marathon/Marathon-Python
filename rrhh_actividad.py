@@ -54,7 +54,8 @@ SELECT
   t.MPS_DUREEPLAGE AS Horas_Realizadas,
   j1.CC_LIBELLE AS Justificacion1,
   j2.CC_LIBELLE AS Justificacion2,
-  j3.CC_LIBELLE AS Justificacion3
+  j3.CC_LIBELLE AS Justificacion3,
+  c.GCL_TCONTRAT AS Contrato
 FROM MPLAGESALARIE p
 LEFT JOIN Real r
   ON r.MPS_IDPLAGEPREV = p.MPS_IDPLAGE
