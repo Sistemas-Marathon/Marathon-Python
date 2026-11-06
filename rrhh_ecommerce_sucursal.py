@@ -6,7 +6,7 @@ from io import BytesIO
 
 
 def run():
-    st.title("🛒 Ventas E-commerce por Sucursal (RRHH)")
+    st.title("🛒 Ventas por Sucursal")
 
     fecha_inicio = st.date_input("📅 Fecha de inicio")
     fecha_fin = st.date_input("📅 Fecha de fin")
