@@ -98,7 +98,7 @@ elif area == "RRHH":
         rrhh_recepcion_proveedor.run()
 
 elif area == "Ecommerce":
-    st.title("🛒 Ecommerce")
+    st.title("🌐 Ecommerce")
     opcion = st.sidebar.radio("📋 Procesos disponibles:", [
         "Ventas E-commerce por Sucursal"
     ])
