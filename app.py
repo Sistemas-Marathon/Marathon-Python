@@ -20,6 +20,7 @@ import lista_art
 import rrhh_martin
 import rrhh_actividad
 import rrhh_recepcion_proveedor
+import rrhh_ecommerce_sucursal
 # Configuración global
 st.set_page_config(page_title="Sistema de Automatización", layout="wide", page_icon="🛠️")
 
@@ -30,7 +31,7 @@ logo = Image.open("descarga.jpeg")  # Asegurate que esté en la misma carpeta de
 with st.sidebar:
     st.image(logo, width=150)
     st.title("🔧 Automatizaciones")
-    area = st.selectbox("Seleccioná el área", ["Inicio", "Supply Chain", "RRHH", "Marketing","Control cajas"])
+    area = st.selectbox("Seleccioná el área", ["Inicio", "Supply Chain", "RRHH", "Marketing","Control cajas", "Ecommerce"])
 
 # --- CONTENIDO PRINCIPAL ---
 if area == "Inicio":
@@ -95,6 +96,14 @@ elif area == "RRHH":
         rrhh_actividad.run()
     elif opcion == "Recepción de Proveedor":
         rrhh_recepcion_proveedor.run()
+
+elif area == "Ecommerce":
+    st.title("🛒 Ecommerce")
+    opcion = st.sidebar.radio("📋 Procesos disponibles:", [
+        "Ventas E-commerce por Sucursal"
+    ])
+    if opcion == "Ventas E-commerce por Sucursal":
+        rrhh_ecommerce_sucursal.run()
 
 elif area == "Marketing":
     st.title("📈 Marketing")
